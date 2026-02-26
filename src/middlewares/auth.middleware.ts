@@ -25,6 +25,8 @@ class UserMiddleware {
 
 
             const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+
+            console.log(`token we got : ${token}`)
             if (!token) {
                 res.status(401).json({
                     message: "access denied, unauthorized user!!!!!"

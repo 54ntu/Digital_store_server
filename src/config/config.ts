@@ -9,6 +9,7 @@ interface EnvConfig {
     adminemail: string;
     adminpassword: string;
     adminusername: string;
+    NODE_ENV: string
 }
 
 
@@ -22,4 +23,5 @@ export const envConfig: EnvConfig = {
     adminemail: process.env.ADMIN_EMAIL!,
     adminpassword: process.env.ADMIN_PASSWORD!,
     adminusername: process.env.ADMIN_USERNAME!,
+    NODE_ENV: process.env.NODE_ENV!
 }

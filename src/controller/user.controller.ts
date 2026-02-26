@@ -135,11 +135,11 @@ class UserController {
 
 
     static async logout(req: Request, res: Response) {
-
+        const isProduction = envConfig.NODE_ENV === "production"
         const options = {
             httpOnly: true,
-            secure: true,
-            sameSite: 'strict' as const,
+            secure: isProduction,
+            sameSite: 'lax' as const,
         }
 
         return res.status(200)
