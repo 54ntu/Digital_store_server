@@ -20,9 +20,11 @@ class ProductController {
         //image url will be handled separately  
         const productImageUrl = req.file?.filename;
         // console.log(productImageUrl)
+        const finalProductImageUrl = "http://localhost:4000/" + productImageUrl;
+
 
         if (!productImageUrl) {
-            res.send(500).json({
+            res.status(500).json({
                 message: "image name is not received🤬🤬🤬🤬🤬🤬🤬🤬🤬"
             })
         }
@@ -55,7 +57,7 @@ class ProductController {
             description,
             price,
             productStock,
-            productImageUrl,
+            productImageUrl: finalProductImageUrl,
             discount,
             categoryId
         })
