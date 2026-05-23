@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { Product } from "../models/product.model.js";
 import { emitWarning } from "node:process";
+import { Category } from "../models/category.model.js";
 
 class ProductController {
     // Controller methods will be implemented here
@@ -15,11 +16,12 @@ class ProductController {
             res.status(500).json({
                 message: "All fields are required😡😡😡😡😡😡😡"
             })
+            return;
         }
 
         //image url will be handled separately  
         const productImageUrl = req.file?.filename;
-        // console.log(productImageUrl)
+        console.log("productImageUrl:", productImageUrl);
         const finalProductImageUrl = "http://localhost:4000/" + productImageUrl;
 
 
@@ -27,6 +29,7 @@ class ProductController {
             res.status(500).json({
                 message: "image name is not received🤬🤬🤬🤬🤬🤬🤬🤬🤬"
             })
+            return;
         }
 
         //check whether the same category and same product exist already or not
@@ -66,13 +69,23 @@ class ProductController {
             message: "new product created successfully😊😊😊😊😊😊🤩🤩",
             product: newProduct
         })
+        return;
 
 
     }
 
     static async getProduct(req: Request, res: Response): Promise<void> {
 
-        const products = await Product.findAll();
+        const products = await Product.findAll({
+            include:[
+                {
+                    model:Category,
+                    as:"category",
+                    attributes:["id","categoryName"]
+                }
+            ],
+            attributes:{exclude:["categoryId"]},
+        });
         if (products.length === 0) {
             res.status(404).json({
                 message: "product not found😒😒😒😒😒😒"
