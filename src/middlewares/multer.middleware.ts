@@ -10,10 +10,10 @@ const storage = multer.diskStorage({
     filename: function (req: Request, file: Express.Multer.File, cb: any) {
         const uniqueSuffix = Date.now()
 
-        const ext = path.extname(file.originalname); // extracts ".jpg" / ".png" etc.
+        // const ext = path.extname(file.originalname); // extracts ".jpg" / ".png" etc.
         // console.log(`ext  is ${ext}`)
         // console.log(`file original name is ${file.fieldname}`)
-        cb(null, file.fieldname + '-' + uniqueSuffix + ext)
+        cb(null,  uniqueSuffix + '-' + file.originalname)
     }
 
 })

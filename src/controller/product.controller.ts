@@ -22,7 +22,7 @@ class ProductController {
         //image url will be handled separately  
         const productImageUrl = req.file?.filename;
         console.log("productImageUrl:", productImageUrl);
-        const finalProductImageUrl = "http://localhost:4000/" + productImageUrl;
+        const finalProductImageUrl = `http://localhost:4000/uploads/${productImageUrl}`;
 
 
         if (!productImageUrl) {
