@@ -13,6 +13,7 @@ class CartController {
         //userid
 
         const userid = req.user?.id
+        console.log(`   user id from the request is : ${userid}`)
         const { productId, quantity } = req.body
         if (!productId || !quantity) {
             res.status(400).json({
@@ -21,27 +22,28 @@ class CartController {
             return;
         }
 
-        const isProductExistInCart = await Cart.findOne({
+        let cartItem = await Cart.findOne({
             where: {
                 productId,
-                userID: userid
+                userId: userid
             }
         })
 
-        if (isProductExistInCart) {
-            isProductExistInCart.quantity += quantity
-            await isProductExistInCart.save()
+        if (cartItem) {
+            cartItem.quantity += quantity
+            await cartItem.save()
         } else {
 
-            await Cart.create({
-                userid,
+            cartItem=await Cart.create({
+                userId: userid,
                 productId,
                 quantity
             })
 
         }
         res.status(200).json({
-            message: "product successfully added to the cart🤩🤩🤩🤩"
+            message: "product successfully added to the cart🤩🤩🤩🤩",
+            data:cartItem
         })
         return
 
@@ -59,7 +61,7 @@ class CartController {
             include: [
                 {
                     model: Product,
-                    attributes: ['id', 'productName', 'productPrice', 'productImageUrl']
+                    attributes: ['id', 'productName', 'price', 'productImageUrl']
                 }
             ]
         })
